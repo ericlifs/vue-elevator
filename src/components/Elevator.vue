@@ -8,7 +8,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Elevator',
+  name: 'elevator',
   computed: { ...mapGetters(['currentFloor']) }
 }
 </script>

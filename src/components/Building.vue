@@ -5,7 +5,7 @@
         {{floor ? floor : 'PB'}}
       </button>
     </div>
-    <Elevator />
+    <elevator />
   </section>
 </template>
 
@@ -16,7 +16,7 @@ import Elevator from './Elevator'
 const FLOORS = 5;
 
 export default {
-  name: 'Building',
+  name: 'building',
   components: {
     Elevator,
   },
