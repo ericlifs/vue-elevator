@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Building :floors="floors"></Building>
+    <Building></Building>
   </div>
 </template>
 

@@ -13,17 +13,16 @@
 import { mapActions } from 'vuex'
 import Elevator from './Elevator'
 
+const FLOORS = 5;
+
 export default {
   name: 'Building',
   components: {
     Elevator,
   },
-  props: {
-    floors: Number,
-  },
   computed: {
     floorsArray() {
-      return Array.from(Array(this.floors).keys()).reverse()
+      return Array.from(Array(FLOORS).keys()).reverse()
     },
   },
   methods: {
