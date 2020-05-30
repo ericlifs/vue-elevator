@@ -1,14 +1,22 @@
 <template>
   <section class="building">
-    <div class="building__floor" v-for="floor in floorsArray" v-bind:key="floor">
-      {{floor ? floor : 'PB'}}
+    <div class="building__floor" v-for="floor in floorsArray" :key="floor">
+      <button class="floor__button button--flat" type="button">
+        {{floor ? floor : 'PB'}}
+      </button>
     </div>
+    <Elevator />
   </section>
 </template>
 
 <script>
+import Elevator from './Elevator'
+
 export default {
   name: 'Building',
+  components: {
+    Elevator,
+  },
   props: {
     floors: Number,
   },
@@ -22,19 +30,24 @@ export default {
 
 <style scoped lang="scss">
   .building {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    position: relative;
+    display: inline-block;
 
     &__floor {
-      height: 100%;
+      width: 400px;
+      height: 100px;
       display: flex;
       align-items: center;
       background: #a4b0be;
       justify-content: center;
-      border-top: 1px solid black;
-      border-bottom: 1px solid black;
+
+      .floor__button {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 3px solid white;
+        background: gold;
+      }
     }
   }
 </style>

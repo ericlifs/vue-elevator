@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      floors: 7,
+      floors: 5,
     };
   }
 }
@@ -25,6 +25,8 @@ export default {
     margin: 0;
     padding: 0;
     height: 100vh;
+    background: #1e90ff;
+    position: relative;
 
     #app {
       font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -33,6 +35,16 @@ export default {
       text-align: center;
       color: #2c3e50;
       height: 100%;
+    }
+
+    .button--flat {
+      background: none;
+      color: inherit;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font: inherit;
+      outline: inherit;
     }
   }
 </style>
