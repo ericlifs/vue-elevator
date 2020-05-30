@@ -1,7 +1,7 @@
 <template>
   <section class="building">
     <div class="building__floor" v-for="floor in floorsArray" :key="floor">
-      <button class="floor__button button--flat" type="button">
+      <button class="floor__button button--flat" v-on:click="queueRequest(floor)" type="button">
         {{floor ? floor : 'PB'}}
       </button>
     </div>
@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Elevator from './Elevator'
 
 export default {
@@ -24,6 +25,9 @@ export default {
     floorsArray() {
       return Array.from(Array(this.floors).keys()).reverse()
     },
+  },
+  methods: {
+    ...mapActions(['queueRequest'])
   }
 }
 </script>
