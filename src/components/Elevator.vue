@@ -1,12 +1,15 @@
 <template>
   <section class="elevator">
-    <label class="elevator__current-floor">PB</label>
+    <label class="elevator__current-floor">{{currentFloor}}</label>
   </section>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Elevator',
+  computed: { ...mapGetters(['currentFloor']) }
 }
 </script>
 
