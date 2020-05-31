@@ -5,7 +5,7 @@
         {{floor ? floor : 'PB'}}
       </button>
     </div>
-    <elevator />
+    <elevator :floors="floorsArray"/>
   </section>
 </template>
 
