@@ -1,15 +1,37 @@
 <template>
-  <section class="elevator">
+  <section class="elevator" ref="elevator">
+    <label>{{status}}</label>
     <label class="elevator__current-floor">{{currentFloor}}</label>
   </section>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import { TimelineLite } from 'gsap'
+
+const timeline = new TimelineLite()
 
 export default {
   name: 'elevator',
-  computed: { ...mapGetters(['currentFloor']) }
+  computed: { ...mapGetters(['currentFloor', 'status']) },
+  watch: {
+    currentFloor() {
+      this.goToCurrentFloor();
+    }
+  },
+  methods: {
+    ...mapActions(['onTravelEnded']),
+    goToCurrentFloor() {
+      const { elevator } = this.$refs;
+
+      timeline.to(elevator, {
+        y: `${(this.currentFloor * -100)}px`,
+        duration: 1.5,
+        onComplete: this.onTravelEnded,
+        onCompleteParams: [this.currentFloor],
+      });
+    }
+  }
 }
 </script>
 

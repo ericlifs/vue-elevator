@@ -1,5 +1,8 @@
+import ELEVATOR_STATUS from './elevator-status'
+
 const state = {
   currentFloor: 0,
+  status: ELEVATOR_STATUS.INITIAL,
   queue: [],
 }
 
@@ -7,24 +10,24 @@ const getters = {
   currentFloor: state => state.currentFloor,
   isQueueEmpty: state => state.queue.length === 0,
   firstFromQueue: state => state.queue[0],
+  status: state => state.status
 }
 
 const actions = {
-  queueRequest: ({ commit, getters }, floor) => {
-    // As the queue is empty, the elevator can go directly to the selected floor
-    if (getters.isQueueEmpty) {
-      // Here it should start directly
-    }
-
-    // As the elevator is currently going to a floor, we must queue the request 
-    if (floor !== getters.currentFloor && floor !== getters.firstFromQueue) {
-      commit('queueRequest', floor)
-    }
+  goToFloor: ({ commit }, floor) => {
+    commit('goToFloor', floor)
+    commit('setStatus', ELEVATOR_STATUS.ON_TRAVEL)
+  },
+  onTravelEnded: ({ commit }, floor) => {
+    const nextStatus = floor ? ELEVATOR_STATUS.WAITING_FOR_INPUT : ELEVATOR_STATUS.INITIAL
+    commit('setStatus', nextStatus)
   }
 }
 
 const mutations = {
-  queueRequest: (state, floor) => state.queue.push(floor)
+  removeFirstFromQueue: (state) => state.queue.shift(),
+  goToFloor: (state, floor) => state.currentFloor = floor,
+  setStatus: (state, status) => state.status = status
 }
 
 export default {

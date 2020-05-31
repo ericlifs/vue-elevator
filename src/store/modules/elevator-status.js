@@ -1,0 +1,5 @@
+export default {
+  INITIAL: 'INITIAL',
+  ON_TRAVEL: 'ON_TRAVEL',
+  WAITING_FOR_INPUT: 'WAITING_FOR_INPUT',
+}
