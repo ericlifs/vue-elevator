@@ -1,7 +1,7 @@
 <template>
   <section class="building">
     <div class="building__floor" v-for="floor in floorsArray" :key="floor">
-      <button class="floor__button button--flat" v-on:click="goToFloor(floor)" type="button">
+      <button class="floor__button button--flat" v-on:click="requestElevator(floor)" type="button">
         {{floor ? floor : 'PB'}}
       </button>
     </div>
@@ -26,7 +26,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['goToFloor'])
+    ...mapActions(['requestElevator'])
   }
 }
 </script>

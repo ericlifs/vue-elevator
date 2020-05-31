@@ -1,7 +1,7 @@
 <template>
   <section class="elevator" ref="elevator">
     <div class="elevator__buttons" v-if="showButtons">
-      <button v-for="floor in floors" :key="floor" class="elevator__button button--flat">
+      <button v-for="floor in floors" :key="floor" @click="goToFloor(floor)" class="elevator__button button--flat">
         {{floor || 'PB'}}
       </button>
     </div>
@@ -35,7 +35,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['onTravelEnded']),
+    ...mapActions(['onTravelEnded', 'goToFloor']),
     goToCurrentFloor() {
       const { elevator } = this.$refs;
 
