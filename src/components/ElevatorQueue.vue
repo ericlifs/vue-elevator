@@ -1,6 +1,6 @@
 <template>
   <section class="elevator-queue">
-    <h3 class="elevator-queue__title elevator-queue__entry">Elevator Queue</h3>
+    <h3 class="elevator-queue__title elevator-queue__entry">Elevator Queue ({{status}})</h3>
     <label class="elevator-queue__entry" v-for="item in queue" :key="item">
       Request elevator from {{item}} floor
     </label>
@@ -12,7 +12,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'ElevatorQueue',
-  computed: { ...mapGetters(['queue']) }
+  computed: { ...mapGetters(['status', 'queue']) }
 }
 </script>
 
