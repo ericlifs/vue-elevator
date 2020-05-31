@@ -10,7 +10,8 @@ const getters = {
   currentFloor: state => state.currentFloor,
   isQueueEmpty: state => state.queue.length === 0,
   firstFromQueue: state => state.queue[0],
-  status: state => state.status
+  status: state => state.status,
+  queue: state => state.queue
 }
 
 const actions = {

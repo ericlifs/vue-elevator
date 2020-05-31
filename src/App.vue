@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <building></building>
+    <elevator-queue></elevator-queue>
   </div>
 </template>
 
 <script>
 import Building from './components/Building.vue'
+import ElevatorQueue from './components/ElevatorQueue.vue'
 
 export default {
   name: 'App',
   components: {
-    Building
+    Building,
+    ElevatorQueue
   },
   data() {
     return {
@@ -27,6 +30,10 @@ export default {
     height: 100vh;
     background: #1e90ff;
     position: relative;
+
+    * {
+      box-sizing: border-box;
+    }
 
     #app {
       font-family: Avenir, Helvetica, Arial, sans-serif;
