@@ -10,20 +10,24 @@ const state = {
 const getters = {
   currentFloor: state => state.currentFloor,
   isQueueEmpty: state => state.queue.length === 0,
-  firstFromQueue: state => state.queue[0] || 0,
+  firstFromQueue: state => state.queue[0],
   status: state => state.status,
   queue: state => state.queue,
-  processingRequest: state => state.processingRequest
+  processingRequest: state => state.processingRequest,
+  isOnLazyState: state => state.status === ELEVATOR_STATUS.INITIAL || state.status === ELEVATOR_STATUS.TRAVEL_ENDED
 }
 
 let timeoutId = null;
 
-const getNextStatus = floor => floor ? ELEVATOR_STATUS.ON_TRAVEL : ELEVATOR_STATUS.INITIAL
-
 const actions = {
   requestElevator: ({ dispatch, commit, getters }, floor) => {
-    if (getters.status === ELEVATOR_STATUS.INITIAL || getters.status === ELEVATOR_STATUS.TRAVEL_ENDED) {
-      dispatch('goToFloor', floor)
+    if (getters.isOnLazyState) {
+      if (floor !== 0) {
+        dispatch('goToFloor', floor)
+      } else {
+        commit('setStatus', ELEVATOR_STATUS.WAITING_FOR_INPUT)
+      }
+
       return
     }
 
@@ -34,25 +38,35 @@ const actions = {
   goToFloor: ({ commit }, floor) => {
     clearTimeout(timeoutId)
 
+    commit('setStatus', ELEVATOR_STATUS.ON_TRAVEL)
     commit('goToFloor', floor)
-    commit('setStatus', getNextStatus(floor))
   },
   processNextFromQueue: ({ commit, dispatch, getters }) => {
     const nextFloor = getters.firstFromQueue
 
-    if (nextFloor) {
+    if (nextFloor !== undefined) {
       commit('removeFromQueue')
     }
 
-    commit('setStatus', getNextStatus(nextFloor))
-    dispatch('goToFloor', nextFloor)
+    if (nextFloor !== getters.currentFloor) {
+      dispatch('goToFloor', nextFloor || 0)
+
+      if (!nextFloor) {
+        commit('setStatus', ELEVATOR_STATUS.TRAVEL_ENDED)
+      }
+    }
   },
   onTravelEnded: ({ commit, dispatch, getters }, floor) => {
-    if (getters.processingRequest || !floor) {
-      commit('setProcessingRequest', false)
-      commit('setStatus', ELEVATOR_STATUS.TRAVEL_ENDED)
+    if (getters.processingRequest || floor === 0) {
+      const nextStatus = getters.firstFromQueue === floor
+        ? ELEVATOR_STATUS.WAITING_FOR_INPUT
+        : ELEVATOR_STATUS.TRAVEL_ENDED
 
-      return dispatch('processNextFromQueue')
+      commit('setProcessingRequest', false)
+      commit('setStatus', nextStatus)
+      dispatch('processNextFromQueue')
+
+      return 
     }
 
     commit('setStatus', ELEVATOR_STATUS.WAITING_FOR_INPUT)
